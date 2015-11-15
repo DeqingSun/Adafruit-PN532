@@ -1660,7 +1660,7 @@ void Adafruit_PN532::writecommand(uint8_t* cmd, uint8_t cmdlen) {
       Serial.print(F(" 0x")); Serial.print(PN532_PREAMBLE, HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_STARTCODE2, HEX);
       Serial.print(F(" 0x")); Serial.print(cmdlen, HEX);
-      Serial.print(F(" 0x")); Serial.print(~cmdlen + 1, HEX);
+      Serial.print(F(" 0x")); Serial.print((uint8_t)(~cmdlen + 1), HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_HOSTTOPN532, HEX);
     #endif
 
@@ -1680,7 +1680,7 @@ void Adafruit_PN532::writecommand(uint8_t* cmd, uint8_t cmdlen) {
     #endif
 
     #ifdef PN532DEBUG
-      Serial.print(F(" 0x")); Serial.print(~checksum, HEX);
+      Serial.print(F(" 0x")); Serial.print((uint8_t)(~checksum), HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_POSTAMBLE, HEX);
       Serial.println();
     #endif
@@ -1715,7 +1715,7 @@ void Adafruit_PN532::writecommand(uint8_t* cmd, uint8_t cmdlen) {
       Serial.print(F(" 0x")); Serial.print(PN532_PREAMBLE, HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_STARTCODE2, HEX);
       Serial.print(F(" 0x")); Serial.print(cmdlen, HEX);
-      Serial.print(F(" 0x")); Serial.print(~cmdlen + 1, HEX);
+      Serial.print(F(" 0x")); Serial.print((uint8_t)(~cmdlen + 1), HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_HOSTTOPN532, HEX);
     #endif
 
@@ -1734,7 +1734,7 @@ void Adafruit_PN532::writecommand(uint8_t* cmd, uint8_t cmdlen) {
     WIRE.endTransmission();
 
     #ifdef PN532DEBUG
-      Serial.print(F(" 0x")); Serial.print(~checksum, HEX);
+      Serial.print(F(" 0x")); Serial.print((uint8_t)(~checksum), HEX);
       Serial.print(F(" 0x")); Serial.print(PN532_POSTAMBLE, HEX);
       Serial.println();
     #endif
