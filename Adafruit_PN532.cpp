@@ -1510,14 +1510,26 @@ uint8_t Adafruit_PN532::sic4310_readRegister (uint8_t address, uint8_t * buffer)
 
   /* Read the response packet */
   readdata(pn532_packetbuffer, 12);
+  
+  /* If byte 8 isn't 0x00 we probably have an error */
+  if (pn532_packetbuffer[7] == 0x00)
+  {
+    *buffer=pn532_packetbuffer[9];
+  }
+  else
+  {
+    #ifdef PN532DEBUG
+      Serial.println(F("Unexpected response reading register: "));
+      Adafruit_PN532::PrintHexChar(pn532_packetbuffer, 12);
+    #endif
+    return 0;
+  }
 
   /* Display data for debug if requested */
   #ifdef PN532DEBUG
     Serial.print(F("Addr "));Serial.print(address);Serial.print(F(":"));Serial.print(F(" 0x"));Serial.println(pn532_packetbuffer[9], HEX);
   #endif
   
-  *buffer=pn532_packetbuffer[9];
-
   /* Return OK signal */
   return 1;
 }
