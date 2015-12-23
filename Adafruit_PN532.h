@@ -197,6 +197,7 @@ class Adafruit_PN532{
   
   // Sic4310 functions
   uint8_t sic4310_readRegister (uint8_t address, uint8_t * buffer);
+  uint8_t sic4310_writeRegister (uint8_t address, uint8_t data);
   
   // Help functions to display formatted text
   static void PrintHex(const byte * data, const uint32_t numBytes);
