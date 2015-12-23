@@ -1477,6 +1477,52 @@ uint8_t Adafruit_PN532::ntag2xx_WriteNDEFURI (uint8_t uriIdentifier, char * url,
 }
 
 
+/***** Sic4310 Functions ******/
+
+/**************************************************************************/
+/*!
+    Read register value from Sic4310
+    @param  address       The register address to read.  (00..0F for most cases)
+    @param  data          The pointer to store read value from sic4310
+    @returns 1 if everything executed properly, 0 for an error
+*/
+/**************************************************************************/
+
+uint8_t Adafruit_PN532::sic4310_readRegister (uint8_t address, uint8_t * buffer){
+  
+  #ifdef PN532DEBUG
+    Serial.print(F("Reading register "));Serial.println(address);
+  #endif
+
+  /* Prepare the command */
+  pn532_packetbuffer[0] = PN532_COMMAND_INCOMMUNICATETHRU;
+  pn532_packetbuffer[1] = SIC4310_CMD_READ_REG;
+  pn532_packetbuffer[2] = address;
+  
+  /* Send the command */
+  if (! sendCommandCheckAck(pn532_packetbuffer, 3))
+  {
+    #ifdef PN532DEBUG
+      Serial.println(F("Failed to receive ACK for write command"));
+    #endif
+    return 0;
+  }
+
+  /* Read the response packet */
+  readdata(pn532_packetbuffer, 12);
+
+  /* Display data for debug if requested */
+  #ifdef PN532DEBUG
+    Serial.print(F("Addr "));Serial.print(address);Serial.print(F(":"));Serial.print(F(" 0x"));Serial.println(pn532_packetbuffer[9], HEX);
+  #endif
+  
+  *buffer=pn532_packetbuffer[9];
+
+  /* Return OK signal */
+  return 1;
+}
+
+
 /************** high level communication functions (handles both I2C and SPI) */
 
 

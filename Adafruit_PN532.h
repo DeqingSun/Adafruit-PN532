@@ -107,6 +107,10 @@
 #define MIFARE_CMD_STORE                    (0xC2)
 #define MIFARE_ULTRALIGHT_CMD_WRITE         (0xA2)
 
+// Sic4310 Commands
+#define SIC4310_CMD_READ_REG                (0xB5)
+#define SIC4310_CMD_WRITE_REG               (0xB6)
+
 // Prefixes for NDEF Records (to identify record type)
 #define NDEF_URIPREFIX_NONE                 (0x00)
 #define NDEF_URIPREFIX_HTTP_WWWDOT          (0x01)
@@ -190,6 +194,9 @@ class Adafruit_PN532{
   uint8_t ntag2xx_ReadPage (uint8_t page, uint8_t * buffer);
   uint8_t ntag2xx_WritePage (uint8_t page, uint8_t * data);
   uint8_t ntag2xx_WriteNDEFURI (uint8_t uriIdentifier, char * url, uint8_t dataLen);
+  
+  // Sic4310 functions
+  uint8_t sic4310_readRegister (uint8_t address, uint8_t * buffer);
   
   // Help functions to display formatted text
   static void PrintHex(const byte * data, const uint32_t numBytes);
