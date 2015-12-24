@@ -1615,6 +1615,50 @@ void Adafruit_PN532::sic4310_pinMode(uint8_t pin, uint8_t mode){
   
 }
 
+/**************************************************************************/
+/*!
+    //Arduino compatible digitalWrite function for Sic4310
+    @param  pin           The pin number to access
+    @param  mode          The pin value (LOW, HIGH)
+    
+*/
+/**************************************************************************/
+void Adafruit_PN532::sic4310_digitalWrite(uint8_t pin, uint8_t val){
+  uint8_t bitMask = (1<<pin);
+  uint8_t value;
+
+  if (pin>8) return;
+  
+  if (val == LOW) {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_OUT, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_OUT, value&(~bitMask));
+  } else {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_OUT, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_OUT, value|(bitMask));
+  }
+  
+}
+
+/**************************************************************************/
+/*!
+    //Arduino compatible digitalRead function for Sic4310
+    @param  pin           The pin number to access
+    @returns read pin value
+    
+*/
+/**************************************************************************/
+uint8_t Adafruit_PN532::sic4310_digitalRead(uint8_t pin){
+  uint8_t bitMask = (1<<pin);
+  uint8_t value;
+  
+  if (pin>8) return LOW;
+
+  sic4310_readRegister(SIC4310_ADDR_GPIO_IN, &value);
+  
+  if (value&bitMask) return HIGH;
+  else return LOW;
+}
+
 
 /************** high level communication functions (handles both I2C and SPI) */
 
