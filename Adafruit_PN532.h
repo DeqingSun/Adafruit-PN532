@@ -214,6 +214,9 @@ class Adafruit_PN532{
   // Sic4310 functions
   uint8_t sic4310_readRegister (uint8_t address, uint8_t * buffer);
   uint8_t sic4310_writeRegister (uint8_t address, uint8_t data);
+  void sic4310_pinMode(uint8_t pin, uint8_t mode);
+  void sic4310_digitalWrite(uint8_t pin, uint8_t val);
+  uint8_t sic4310_digitalRead(uint8_t pin);
   
   // Help functions to display formatted text
   static void PrintHex(const byte * data, const uint32_t numBytes);

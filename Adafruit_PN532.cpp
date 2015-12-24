@@ -1584,6 +1584,37 @@ uint8_t Adafruit_PN532::sic4310_writeRegister (uint8_t address, uint8_t data){
   return 1;
 }
 
+/**************************************************************************/
+/*!
+    //Arduino compatible pinMode function for Sic4310
+    @param  pin           The pin number to access
+    @param  mode          The pinMode value (INPUT, OUTPUT, INPUT_PULLUP)
+    
+*/
+/**************************************************************************/
+void Adafruit_PN532::sic4310_pinMode(uint8_t pin, uint8_t mode){
+  uint8_t bitMask = (1<<pin);
+  uint8_t value;
+
+  if (pin>8) return;
+  
+  if (mode == INPUT) {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_DIR, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_DIR, value&(~bitMask));
+    sic4310_readRegister(SIC4310_ADDR_GPIO_PULLUP, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_PULLUP, value&(~bitMask));
+  } else if (mode == INPUT_PULLUP) {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_DIR, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_DIR, value&(~bitMask));
+    sic4310_readRegister(SIC4310_ADDR_GPIO_PULLUP, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_PULLUP, value|(bitMask));
+  } else {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_DIR, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_DIR, value|(bitMask));
+  }
+  
+}
+
 
 /************** high level communication functions (handles both I2C and SPI) */
 
