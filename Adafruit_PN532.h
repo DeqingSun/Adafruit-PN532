@@ -107,6 +107,22 @@
 #define MIFARE_CMD_STORE                    (0xC2)
 #define MIFARE_ULTRALIGHT_CMD_WRITE         (0xA2)
 
+// Sic4310 Address
+#define SIC4310_ADDR_UART_STATUS            (0x00)
+#define SIC4310_ADDR_POWER_STATUS           (0x01)
+#define SIC4310_ADDR_TRXRU_RESPONSE_TIME    (0x03)
+#define SIC4310_ADDR_UART_BYTE_CONFIG       (0x04)
+#define SIC4310_ADDR_UART_DIVISOR_M         (0x05)
+#define SIC4310_ADDR_UART_DIVISOR_N         (0x06)
+#define SIC4310_ADDR_OSC_TUNING             (0x07)
+#define SIC4310_ADDR_GPIO_DIR               (0x08)
+#define SIC4310_ADDR_GPIO_MODE              (0x09)
+#define SIC4310_ADDR_GPIO_OUT               (0x0A)
+#define SIC4310_ADDR_GPIO_IN                (0x0B)
+#define SIC4310_ADDR_GPIO_PULLUP            (0x0C)
+#define SIC4310_ADDR_PERIPHERAL_CONFIG      (0x0D)
+#define SIC4310_ADDR_PERIPHERAL_ADJUSTMENT  (0x0E)
+
 // Sic4310 Commands
 #define SIC4310_CMD_READ_REG                (0xB5)
 #define SIC4310_CMD_WRITE_REG               (0xB6)
