@@ -126,6 +126,7 @@
 // Sic4310 Commands
 #define SIC4310_CMD_READ_REG                (0xB5)
 #define SIC4310_CMD_WRITE_REG               (0xB6)
+#define SIC4310_CMD_TXRU                    (0xB1)
 
 // Prefixes for NDEF Records (to identify record type)
 #define NDEF_URIPREFIX_NONE                 (0x00)
@@ -217,6 +218,7 @@ class Adafruit_PN532{
   void sic4310_pinMode(uint8_t pin, uint8_t mode);
   void sic4310_digitalWrite(uint8_t pin, uint8_t val);
   uint8_t sic4310_digitalRead(uint8_t pin);
+  uint8_t sic4310_UartTx (uint8_t * buffer, uint8_t len);
   
   // Help functions to display formatted text
   static void PrintHex(const byte * data, const uint32_t numBytes);
