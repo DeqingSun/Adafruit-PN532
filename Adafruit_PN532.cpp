@@ -1671,7 +1671,7 @@ uint8_t Adafruit_PN532::sic4310_digitalRead(uint8_t pin){
 uint8_t Adafruit_PN532::sic4310_UartTx (uint8_t * buffer, uint8_t len){
   
   #ifdef PN532DEBUG
-    Serial.print(F("UART send data "));
+    Serial.println(F("UART send data"));
   #endif
 
   /* Prepare the command */
@@ -1707,6 +1707,63 @@ uint8_t Adafruit_PN532::sic4310_UartTx (uint8_t * buffer, uint8_t len){
   
   /* Return OK signal */
   return 1;
+}
+
+/**************************************************************************/
+/*!
+    //receive data via Uart on Sic4310
+    @param  buffer       pointer for data to be sent
+    @returns length of received data
+    
+*/
+/**************************************************************************/
+uint8_t Adafruit_PN532::sic4310_UartRx (uint8_t * buffer){
+  
+  uint8_t len = 0;
+  
+  #ifdef PN532DEBUG
+    Serial.println(F("UART receive data"));
+  #endif
+
+  /* Prepare the command */
+  pn532_packetbuffer[0] = PN532_COMMAND_INCOMMUNICATETHRU;
+  pn532_packetbuffer[1] = SIC4310_CMD_RXUR;
+  pn532_packetbuffer[2] = 0;
+  
+  /* Send the command */
+  if (! sendCommandCheckAck(pn532_packetbuffer, 3))
+  {
+    #ifdef PN532DEBUG
+      Serial.println(F("Failed to receive ACK for write command"));
+    #endif
+    return 0;
+  }
+
+  /* Read the response packet */
+  readdata(pn532_packetbuffer, 32);
+  
+  /* If byte 8 isn't 0x00 we probably have an error */
+  if (pn532_packetbuffer[7] == 0x00)
+  {
+    if (pn532_packetbuffer[8]==0xA2){
+      len = 0;
+    }else if (pn532_packetbuffer[8]==0xA0){
+      len = pn532_packetbuffer[3] - 4;
+      if (len>23) len = 23;      //I2C limit on Arduino
+      memcpy(buffer,&pn532_packetbuffer[9],len);
+    }   
+  }
+  else
+  {
+    #ifdef PN532DEBUG
+      Serial.println(F("Unexpected response reading register: "));
+      Adafruit_PN532::PrintHexChar(pn532_packetbuffer, 12);
+    #endif
+    return 0;
+  }
+  
+  /* Return OK signal */
+  return len;
 }
 
 
