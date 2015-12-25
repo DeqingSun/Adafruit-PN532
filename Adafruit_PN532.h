@@ -219,6 +219,7 @@ class Adafruit_PN532{
   void sic4310_pinMode(uint8_t pin, uint8_t mode);
   void sic4310_digitalWrite(uint8_t pin, uint8_t val);
   uint8_t sic4310_digitalRead(uint8_t pin);
+  void sic4310_specialFunction(uint8_t pin, uint8_t val);
   uint8_t sic4310_UartTx (uint8_t * buffer, uint8_t len);
   uint8_t sic4310_UartRx (uint8_t * buffer);
   

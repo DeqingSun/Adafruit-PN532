@@ -1,9 +1,8 @@
-
+//serial rate is 115200 by default
 
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_PN532.h>
-
 
 
 // If using the breakout with SPI, define the pins for SPI communication.
@@ -83,25 +82,23 @@ void loop(void) {
 
     //do something else
     uint8_t value;
-
-    nfc.sic4310_specialFunction(0, LOW);
-    nfc.sic4310_pinMode(0, OUTPUT);
-    nfc.sic4310_pinMode(7, OUTPUT);
-
-    while (1) {
-      success = nfc.sic4310_readRegister(SIC4310_ADDR_POWER_STATUS, &value);  //check if card is still there
-      if (!success) {
-        break;
-      }
-      nfc.sic4310_digitalWrite(0, !nfc.sic4310_digitalRead(0));
-      nfc.sic4310_digitalWrite(7, !nfc.sic4310_digitalRead(7));
-      delay(1000);
+    uint8_t data[128];
+    uint8_t data2[128];
+    for (int i = 0; i < 128; i++) {
+      data[i] = '0' + (i % 10);
     }
-
-    Serial.println(F("Card lost"));
-
+    data[0] = '\n';
+    nfc.sic4310_UartTx (data, 23);
+    
+    uint8_t len = nfc.sic4310_UartRx(data2);
+    Serial.println(len);
+    for (int i=0;i<len;i++){
+      Serial.print((char)data2[i]);
+    }
+    Serial.println();
+   
     // Wait 1 second before continuing
-    delay(100);
+    delay(5000);
   }
   else
   {

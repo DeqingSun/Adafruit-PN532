@@ -1661,6 +1661,30 @@ uint8_t Adafruit_PN532::sic4310_digitalRead(uint8_t pin){
 
 /**************************************************************************/
 /*!
+    //special function function for Sic4310
+    @param  pin           The pin number to access
+    @param  mode          The pin value (LOW, HIGH)
+    
+*/
+/**************************************************************************/
+void Adafruit_PN532::sic4310_specialFunction(uint8_t pin, uint8_t val){
+  uint8_t bitMask = (1<<pin);
+  uint8_t value;
+
+  if (pin>8) return;
+  
+  if (val == LOW) {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_MODE, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_MODE, value&(~bitMask));
+  } else {
+    sic4310_readRegister(SIC4310_ADDR_GPIO_MODE, &value);
+    sic4310_writeRegister(SIC4310_ADDR_GPIO_MODE, value|(bitMask));
+  }
+  
+}
+
+/**************************************************************************/
+/*!
     //send data via Uart on Sic4310
     @param  buffer       pointer for data to be sent
     @param  len          Data len (no bigger than 23 (tested))
